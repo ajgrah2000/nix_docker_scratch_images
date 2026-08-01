@@ -18,7 +18,9 @@ Goal:
     cd ./new_repo
     git init
 
+
     nix flake init --refresh -t "git+ssh://git@github.com/ajgrah2000/nix_docker_scratch_images.git"
+
 
     chmod u+x ./nix_docker_from_scratch.sh
 
