@@ -6,6 +6,7 @@ nix to build clean/fresh docker images that contain nix packages (on each invoka
 Goal:
   - Allow a clean docker contain that can include a local repository and nix declared packages.
   - Main use case, 'coding agents'.
+  - Experiment with docker layers/reuse/nix
 
 ## Dependencies
  | Tool   | Purpose                             | Reference                               |
@@ -13,33 +14,32 @@ Goal:
  | nix    | To create the images from the host. | https://nix.dev/install-nix.html        |
  | docker | To run the images.                  | https://docs.docker.com/engine/install/ |
 
-## For new repository
+### Setup 
     cd ./new_repo
     git init
     nix flake init --refresh -t "git+ssh://git@github.com/ajgrah2000/nix_docker_scratch_images.git"
-    # see Example below, or ./examples/ for adding a replacement 'image_configs.nix' to your repository
+    chmod u+x ./nix_docker_from_scratch.sh
 
-###
- example 'image_configs.nix' files (need to remove suffix):
-   - simple/replacement: [image_configs.nix](./examples/image_configs.nix.simple)
-   - extend: [image_configs.nix](./examples/image_configs.nix.simple)
+### Run:
+    ./nix_docker_from_scratch.sh docker-nix-minimal
+    # Run without any arguments to get the list of images (changeable by replacing 'image_configs.nix). 
+    #   (posslby not stale) current options 'docker-nix-all','docker-nix-opencode','docker-nix-claude'
 
 ## Run without setup
     nix run --no-write-lock-file "git+ssh://git@github.com/ajgrah2000/nix_docker_scratch_images.git#docker-nix-all"
 
     nix run --no-write-lock-file "git+ssh://git@github.com/ajgrah2000/nix_docker_scratch_images.git#docker-nix-all" -- -v $(pwd)/data:/data  
-
-## Running (after template creation)
-### Sample script:
-    ./nix_docker_from_scratch.sh docker-nix-minimal
-
-### Via nix commands:
+### Run via nix commands:
 Directly via nix:
     nix run .#docker-nix-all
 or 
     nix run <path_to_this_repo>#docker-nix-all
 
-Docker config/settings:
+## Changing image packages
+   - simple/replacement: [image_configs.nix](./examples/image_configs.nix.simple)
+   - extend: [image_configs.nix](./examples/image_configs.nix.simple)
+
+## Docker config/settings:
     Depending on desired reopsitory layout/setup, options can be provided to docker.
     eg '-v' options to dockerhow you want 
 

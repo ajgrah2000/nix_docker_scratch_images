@@ -60,6 +60,12 @@ pkgs: rec {
              pkgs.vulkan-loader
              pkgs.opencode ];
     };
+
+    docker-nix-opencode = {
+      contents =
+        base_dev
+        ++ [ pkgs.opencode ];
+    };
   
     docker-nix-nocargo.contents =
       drawing_packages
