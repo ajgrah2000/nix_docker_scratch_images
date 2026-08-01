@@ -116,7 +116,5 @@ image\_configs.nix:
     nix flake show --refresh
 
 # References
-    Current iteration based on:
-        https://github.com/grigio/docker-nixuser
-
+  Current iteration based on: https://github.com/grigio/docker-nixuser
 
