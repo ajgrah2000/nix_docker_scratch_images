@@ -17,13 +17,17 @@ Goal:
 ### Setup 
     cd ./new_repo
     git init
+
     nix flake init --refresh -t "git+ssh://git@github.com/ajgrah2000/nix_docker_scratch_images.git"
+
     chmod u+x ./nix_docker_from_scratch.sh
 
 ### Run:
+
     ./nix_docker_from_scratch.sh docker-nix-minimal
-    # Run without any arguments to get the list of images (changeable by replacing 'image_configs.nix). 
-    #   (posslby not stale) current options 'docker-nix-all','docker-nix-opencode','docker-nix-claude'
+
+Run without any arguments to get the list of images (changeable by replacing 'image_configs.nix).  (posslby not stale) current options
+'docker-nix-all','docker-nix-opencode','docker-nix-claude'
 
 ## Run without setup
     nix run --no-write-lock-file "git+ssh://git@github.com/ajgrah2000/nix_docker_scratch_images.git#docker-nix-all"
