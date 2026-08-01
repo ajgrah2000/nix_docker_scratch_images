@@ -84,7 +84,7 @@
 
           # or
               chmod u+x ./nix_docker_from_scratch.sh
-              ./nix_docker_from_scratch.sh
+              ./nix_docker_from_scratch.sh docker-nix-all
         '';
       };
     };
