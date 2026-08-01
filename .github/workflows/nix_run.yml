@@ -28,4 +28,5 @@ jobs:
         with:
           nix_path: nixpkgs=channel:nixos-unstable
       - run: nix run .#docker-nix-minimal -- --entrypoint echo docker-nix-minimal hello
+      - run: nix run .#docker-nix-claude -- --entrypoint echo docker-nix-claude hello
 
