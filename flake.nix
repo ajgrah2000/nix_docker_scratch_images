@@ -81,7 +81,8 @@
           ## Example use:
           - nix flake show 
           - nix run .#docker-nix-all -- -v ~/.local/share/opencode/auth.json:/home/nixuser/.local/share/opencode/auth.json -v $(pwd)/data/opencode.json:/opencode.json -v $(pwd)/data:/data
-          # or
+
+          # Or
           - chmod u+x ./nix\_docker\_from\_scratch.sh
           - ./nix\_docker\_from\_scratch.sh
         '';
