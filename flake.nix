@@ -80,7 +80,7 @@
 
           ## Example use:
               nix flake show
-              nix run .#docker-nix-all ---v $(pwd)/data:/data -v $(pwd)/data/opencode.json:/opencode.json -v ~/.local/share/opencode/auth.json:/home/nixuser/.local/share/opencode/auth.json
+              nix run .#docker-nix-all -- -v $(pwd)/data:/data -v $(pwd)/data/opencode.json:/opencode.json -v ~/.local/share/opencode/auth.json:/home/nixuser/.local/share/opencode/auth.json
 
           # or
               chmod u+x ./nix_docker_from_stratch.sh
