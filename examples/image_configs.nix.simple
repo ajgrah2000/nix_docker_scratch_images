@@ -1,0 +1,16 @@
+pkgs: {
+  # Convinience lists of packages.
+  base_dev = (with pkgs; [
+    gnugrep
+  ]);
+  image_specs = {
+    docker-nix-simple = {
+      contents = base_dev;
+      config = { 
+        # Overriding 'pkgs.dockerTools.buildLayeredImage' config options for this image
+        allowUnfree = true;
+      };
+    };
+  };
+}
+
