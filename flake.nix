@@ -79,12 +79,12 @@
           # Basic nix docker opencode template.
 
           ## Example use:
-          - nix flake show 
-          - nix run .#docker-nix-all -- -v ~/.local/share/opencode/auth.json:/home/nixuser/.local/share/opencode/auth.json -v $(pwd)/data/opencode.json:/opencode.json -v $(pwd)/data:/data
+              nix flake show
+              nix run .#docker-nix-all ---v $(pwd)/data:/data -v $(pwd)/data/opencode.json:/opencode.json -v ~/.local/share/opencode/auth.json:/home/nixuser/.local/share/opencode/auth.json
 
-          # Or
-          - chmod u+x ./nix\_docker\_from\_scratch.sh
-          - ./nix\_docker\_from\_scratch.sh
+          # or
+              chmod u+x ./nix_example_start_opencode.sh
+              ./nix_example_start_opencode.sh
         '';
       };
     };
