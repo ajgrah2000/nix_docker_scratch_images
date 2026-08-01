@@ -1,10 +1,16 @@
 Nix docker scratch images
 =========================
 
-nix to build clean/fresh docker images that contain nix packages (on each invokation).
 
-Goal:
-  - Allow a clean docker contain that can include a local repository and nix declared packages.
+## Overview
+  uses nix to build clean/fresh docker images that contain nix packages (on each invokation).
+
+  Build and runs docker images, built from the configured package lists.
+  Within the nix docker images 'nix profile list' 'nix profile add' can be used
+  by coding agents to install tools to use. 
+
+### General goals
+  - Allow a clean docker contain that can include a local repository (as a sub directory) with nix declared packages.
   - Main use case, 'coding agents'.
   - Experiment with docker layers/reuse/nix
 
@@ -39,8 +45,11 @@ Run without any arguments to get the list of images (changeable by replacing 'im
     nix run --no-write-lock-file "git+ssh://git@github.com/ajgrah2000/nix_docker_scratch_images.git#docker-nix-all" -- -v $(pwd)/data:/data  
 ### Run via nix commands:
 Directly via nix:
+
     nix run .#docker-nix-all
+
 or 
+
     nix run <path_to_this_repo>#docker-nix-all
 
 ## Changing image packages
@@ -85,6 +94,8 @@ image\_configs.nix:
     }
 
 # Known Issues
+   Nix package lists are primitive. Intent was to make the 'configurable bit  simple', but consequence is that it may not provide the ability to alter all the knobs and dials you may want.
+
    'docker arguments'  Aren't super flexible:
        docker run "$@" --rm -it "$IMAGE_NAME"
 
