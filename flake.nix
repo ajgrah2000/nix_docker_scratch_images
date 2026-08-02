@@ -78,13 +78,16 @@
         welcomeText =''
           # Basic nix docker opencode template.
 
-          ## Example use:
-              nix flake show
-              nix run .#docker-nix-all -- -v $(pwd)/data:/data -v $(pwd)/data/opencode.json:/opencode.json -v ~/.local/share/opencode/auth.json:/home/nixuser/.local/share/opencode/auth.json
+          ## Example use (run docker-nix-all):
+              chmod u+x ./nix_docker_from_scratch.sh && ./nix_docker_from_scratch.sh docker-nix-all
 
           # or
-              chmod u+x ./nix_docker_from_scratch.sh
-              ./nix_docker_from_scratch.sh docker-nix-all
+              nix run .#docker-nix-all -- -v $(pwd)/data:/data -v $(pwd)/data/opencode.json:/opencode.json -v ~/.local/share/opencode/auth.json:/home/nixuser/.local/share/opencode/auth.json
+
+
+          # List options
+              nix flake show               # List options (nix command)
+              ./nix_docker_from_scratch.sh # List options (script way)
         '';
       };
     };
@@ -93,4 +96,3 @@
   };
 
 }
-

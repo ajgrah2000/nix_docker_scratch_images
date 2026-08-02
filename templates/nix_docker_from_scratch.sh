@@ -12,6 +12,17 @@ OPENCODE_JSON="$(pwd)/data/opencode.json"
 VALID_IMAGES=(${IMAGES})
 VALID_SYSTEMS=(${SYSTEMS})
 
+# Prevent script from exiting parent when sourced.
+safe_exit() {
+    local exit_code="${1:-0}"
+    if [[ "${BASH_SOURCE[0]}" != "${0}" ]]; then
+        # If sourced
+        return "$exit_code"
+    else
+        exit "$exit_code"
+    fi
+}
+
 SYSTEM="x86_64-linux"
 if [[ "${1:-}" == "--system" ]]; then
   SYSTEM="$2"
@@ -19,8 +30,8 @@ if [[ "${1:-}" == "--system" ]]; then
 fi
 
 usage() {
-        echo "Usage: $0 --system {${VALID_SYSTEMS[*]}} {${VALID_IMAGES[*]}}"
-    exit 1
+    echo "Usage: $0 --system {${VALID_SYSTEMS[*]}} {${VALID_IMAGES[*]}}"
+    safe_exit 1
 }
 
 # Require exactly one argument
