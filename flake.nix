@@ -76,16 +76,20 @@
         path = ./templates;
         description = "Docker from scratch template.";
         welcomeText =''
-          # Basic nix docker opencode template.
+          # Nix managed docker container running nix.
+          Simple setup for agentic coding within docker within an a flexible os.
+
+          # Basic setup 
+              # Need to ensure it's used within a git repos, otherwise there will be cryptic nix errors.
+              git init . && chmod u+x ./nix_docker_from_scratch.sh
 
           ## Example use (run docker-nix-all):
-              chmod u+x ./nix_docker_from_scratch.sh && ./nix_docker_from_scratch.sh docker-nix-all
+              ./nix_docker_from_scratch.sh docker-nix-all
 
           # or
               nix run .#docker-nix-all -- -v $(pwd)/data:/data -v $(pwd)/data/opencode.json:/opencode.json -v ~/.local/share/opencode/auth.json:/home/nixuser/.local/share/opencode/auth.json
 
-
-          # List options
+          # List available images
               nix flake show               # List options (nix command)
               ./nix_docker_from_scratch.sh # List options (script way)
         '';
