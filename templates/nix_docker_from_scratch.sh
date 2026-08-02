@@ -31,11 +31,10 @@ fi
 
 usage() {
     echo "Usage: $0 --system {${VALID_SYSTEMS[*]}} {${VALID_IMAGES[*]}}"
-    safe_exit 1
 }
 
 # Require exactly one argument
-[[ $# -ne 1 ]] && usage
+[[ $# -ne 1 ]] && usage && safe_exit 1
 
 IMAGE="$1"
 
@@ -43,11 +42,13 @@ IMAGE="$1"
 if [[ ! " ${VALID_IMAGES[*]} " =~ " ${IMAGE} " ]]; then
     echo "Error: invalid argument '${IMAGE}'"
     usage
+    safe_exit 1
 fi
 
 if [[ ! " ${VALID_SYSTEMS[*]} " =~ " ${SYSTEM} " ]]; then
     echo "Error: invalid --system argument: '${SYSTEM}'"
     usage
+    safe_exit 1
 fi
 
 SYSTEM_IMAGE=${SYSTEM}.${IMAGE}
