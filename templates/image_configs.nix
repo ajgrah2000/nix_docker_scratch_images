@@ -5,7 +5,7 @@ pkgs:
   let 
     # Including as an example, don't need to include/build on the external 'image_configs.nix' file
     src = builtins.fetchGit {
-      url = "git+ssh://git@github.com/ajgrah2000/nix_docker_scratch_images.git";
+      url = "git+ssh://git@github.com/ajgrah2000/nix_docker_scratch_images.git?ref=main";
       rev = "e21bf03eb9e4708744f576641b92a054fc6070ee";
     };
     base = (import "${src}/image_configs.nix") pkgs;
