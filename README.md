@@ -43,6 +43,23 @@ Run without any arguments to get the list of images (changeable by replacing 'im
     nix run --no-write-lock-file "git+ssh://git@github.com/ajgrah2000/nix_docker_scratch_images.git#docker-nix-all"
 
     nix run --no-write-lock-file "git+ssh://git@github.com/ajgrah2000/nix_docker_scratch_images.git#docker-nix-all" -- -v $(pwd)/data:/data  
+
+### ESP32-S3 Rust/ESP-IDF toolchain
+
+The `docker-nix-esp` image includes the Rustup/ESP build prerequisites and
+compatibility paths for downloaded Linux binaries used by the Xtensa toolchain.
+It provides `nix-ld` at the standard glibc loader location, `/usr/bin/env`, and
+a writable `/tmp`; `NIX_LD` and `NIX_LD_LIBRARY_PATH` are configured in the
+container. Rebuild the image after changing these settings:
+
+```sh
+nix run /path/to/nix_docker_scratch_images#docker-nix-esp -- -v "$PWD:/data"
+```
+
+Run this from the Rusted C64 checkout. Inside the container, use
+`/data/esp32s3/setup-esp-emu.sh` to install/configure the toolchain, then source
+`~/export-esp.sh` before running `cargo +esp esp32s3 --locked` from `/data`.
+
 ### Run via nix commands:
 Directly via nix:
 
@@ -128,4 +145,3 @@ image\_configs.nix:
 
 # References
   Current iteration based on: https://github.com/grigio/docker-nixuser
-

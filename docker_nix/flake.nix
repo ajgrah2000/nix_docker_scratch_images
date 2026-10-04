@@ -41,7 +41,44 @@
 
             extraContents = image_specs'.contents;
             entrypoint = "/bin/entrypoint";
-            extraConfig = if image_specs' ? config then image_specs'.config else {};
+            imageConfig = if image_specs' ? config then image_specs'.config else {};
+            extraEnv = imageConfig.Env or [];
+            extraConfig = builtins.removeAttrs imageConfig [ "Env" ];
+            nixLdCompat = image_specs'.nixLdCompat or false;
+
+            nixLdLoaderPath = if system == "x86_64-linux"
+                              then "lib64/ld-linux-x86-64.so.2"
+                              else if system == "aarch64-linux"
+                              then "lib/ld-linux-aarch64.so.1"
+                              else throw "nix-ld compatibility is only configured for x86_64-linux and aarch64-linux";
+
+            nixLdLibraries = with pkgs; [
+              stdenv.cc.cc
+              zlib
+              openssl
+              curl
+              xz
+              zstd
+              libusb1
+              libffi
+              ncurses
+              expat
+              libxml2
+            ];
+
+            nixLdCompatPackages = if nixLdCompat then [ pkgs.nix-ld ] ++ nixLdLibraries else [];
+
+            nixLdExtraCommands = if nixLdCompat then ''
+              mkdir -p "$(dirname ${nixLdLoaderPath})" usr/bin tmp
+              ln -s ${pkgs.nix-ld}/libexec/nix-ld "${nixLdLoaderPath}"
+              ln -s ${pkgs.coreutils}/bin/env usr/bin/env
+              chmod 1777 tmp
+            '' else "";
+
+            nixLdEnv = if nixLdCompat then [
+              "NIX_LD=${pkgs.stdenv.cc.bintools.dynamicLinker}"
+              "NIX_LD_LIBRARY_PATH=${pkgs.lib.makeLibraryPath nixLdLibraries}"
+            ] else [];
 
             # This package list is intended to be packages that 'must exist'
             # for the docker build to occur (essentially all commands in here).
@@ -55,7 +92,7 @@
             ];
 
             # Remove any duplicated packags
-            uniquePackages = pkgs.lib.unique (minimal_packages ++ extraContents);
+            uniquePackages = pkgs.lib.unique (minimal_packages ++ extraContents ++ nixLdCompatPackages);
 
             # Try to ensure priorities are unique by applying a scale factor and index set during build.
             preBakedProfileManifest = let
@@ -212,6 +249,8 @@
                 '')
               ]) ++ [ preBakedProfileManifest profileSymlink ];
 
+              extraCommands = nixLdExtraCommands;
+
               config = {
                 WorkingDir = "/home/nixuser";
                 Entrypoint = [ entrypoint ];
@@ -226,7 +265,7 @@
                   "NIX_REMOTE="
                   "UMASK=022"
                   "NIX_PATH=nixpkgs=flake:nixpkgs"
-                ];
+                ] ++ extraEnv ++ nixLdEnv;
               } // extraConfig ;
             };
 
@@ -240,4 +279,3 @@
       lib.buildImages = buildImages;
     };
 }
-

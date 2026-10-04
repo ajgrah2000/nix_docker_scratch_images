@@ -44,6 +44,22 @@ pkgs: rec {
     pkgs.clippy
   ];
 
+  esp32_packages = [
+    pkgs.rustup
+    pkgs.llvmPackages.clang-unwrapped
+    pkgs.lld
+    pkgs.gnutar
+    pkgs.gzip
+    pkgs.cmake
+    pkgs.ninja
+    pkgs.pkg-config
+    pkgs.gcc
+    pkgs.gnumake
+    pkgs.python3
+    pkgs.git
+    pkgs.esptool
+  ];
+
   # These end up as 'run' options for nix
   image_specs = {
     docker-nix-minimal.contents = [];
@@ -59,6 +75,14 @@ pkgs: rec {
         ++ [ pkgs.mesa
              pkgs.vulkan-loader
              pkgs.opencode ];
+    };
+
+    docker-nix-esp = {
+      contents =
+        base_dev
+        ++ esp32_packages
+        ++ [ pkgs.opencode ];
+      nixLdCompat = true;
     };
 
     docker-nix-opencode = {
