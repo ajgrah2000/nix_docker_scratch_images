@@ -57,6 +57,7 @@ pkgs: rec {
     pkgs.gnumake
     pkgs.python3
     pkgs.git
+    pkgs.libxml2
     pkgs.esptool
   ];
 
@@ -81,6 +82,7 @@ pkgs: rec {
       contents =
         base_dev
         ++ esp32_packages
+        ++ rust_packages
         ++ [ pkgs.opencode ];
       nixLdCompat = true;
     };
