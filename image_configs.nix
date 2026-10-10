@@ -82,6 +82,7 @@ pkgs: rec {
       contents =
         base_dev
         ++ esp32_packages
+        ++ editor_packages
         ++ rust_packages
         ++ [ pkgs.opencode ];
       nixLdCompat = true;
