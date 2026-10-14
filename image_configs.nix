@@ -19,6 +19,10 @@ pkgs: rec {
     gawk
   ]);
 
+  graphics_packages = with pkgs; [
+    blender
+  ];
+
   cpp_packages = with pkgs; [
     cmake
     gcc
@@ -91,6 +95,14 @@ pkgs: rec {
     docker-nix-opencode = {
       contents =
         base_dev
+        ++ [ pkgs.opencode ];
+    };
+
+    docker-nix-graphics = {
+      contents =
+        base_dev
+        ++ graphics_packages
+        ++ editor_packages
         ++ [ pkgs.opencode ];
     };
   
