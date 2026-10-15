@@ -40,9 +40,9 @@ Run without any arguments to get the list of images (changeable by replacing 'im
 'docker-nix-all','docker-nix-opencode','docker-nix-claude'
 
 ## Run without setup
-    nix run --no-write-lock-file "git+ssh://git@github.com/ajgrah2000/nix_docker_scratch_images.git#docker-nix-all"
+    nix run --no-write-lock-file "git+https://github.com/ajgrah2000/nix_docker_scratch_images.git#docker-nix-all" 
 
-    nix run --no-write-lock-file "git+ssh://git@github.com/ajgrah2000/nix_docker_scratch_images.git#docker-nix-all" -- -v $(pwd)/data:/data  
+    nix run --no-write-lock-file "git+https://github.com/ajgrah2000/nix_docker_scratch_images.git#docker-nix-all" -- -v $(pwd)/data:/data  
 
 ### ESP32-S3 Rust/ESP-IDF toolchain
 
@@ -109,6 +109,16 @@ image\_configs.nix:
         };
       };
     }
+# Windows (WSL2)
+    # At time of writing
+    wsl --install -d Ubuntu-24.04
+    wsl
+    sudo apt-get update
+    sudo apt-get install nix docker.io
+    mkdir -p new_ai_play_area/data
+    cd new_ai_play_area
+    # oh my ...
+    sudo nix --extra-experimental-features "nix-command flakes" run --no-write-lock-file "git+https://github.com/ajgrah2000/nix_docker_scratch_images.git#docker-nix-all" -- -v $(pwd)/data:/data
 
 # Known Issues
    Nix package lists are primitive. Intent was to make the 'configurable bit  simple', but consequence is that it may not provide the ability to alter all the knobs and dials you may want.
