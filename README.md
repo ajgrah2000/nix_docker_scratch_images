@@ -119,6 +119,9 @@ image\_configs.nix:
     cd new_ai_play_area
     # oh my ...
     sudo nix --extra-experimental-features "nix-command flakes" run --no-write-lock-file "git+https://github.com/ajgrah2000/nix_docker_scratch_images.git#docker-nix-all" -- -v $(pwd)/data:/data
+    cd /data/
+    touch opencode.json
+    opencode
 
 # Known Issues
    Nix package lists are primitive. Intent was to make the 'configurable bit  simple', but consequence is that it may not provide the ability to alter all the knobs and dials you may want.
